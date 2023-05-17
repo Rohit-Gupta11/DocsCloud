@@ -1,4 +1,5 @@
 import TextEditor from "./components/TextEditor/TextEditor";
+import Navbar from "./components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,6 +11,7 @@ import { v4 as uuidV4 } from "uuid";
 function App() {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route path="/" exact>
           <Redirect to={`/documents/${uuidV4()}`} />

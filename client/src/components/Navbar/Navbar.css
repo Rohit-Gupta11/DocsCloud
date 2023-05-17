@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: sticky;
+    height: 60px;
+    width: 100%;
+    background-color: rgb(170, 217, 236);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    top: 0;
+    font-weight: 500;
+}
+
+.green-btn {
+    height: 60%;
+    width: 6vw;
+    /* padding: 10px 10px; */
+    background-color: rgb(142, 191, 92);
+    border: none;
+    border-radius: 2px;
+    font-size: 1.1rem ;
+    color: azure;
+}
