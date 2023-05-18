@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import './TextEditor.css';
 import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
+import { pdfExporter } from 'quill-to-pdf';
+import { saveAs } from 'file-saver';
+import * as quillToWord from 'quill-to-word';
 
 const TOOLBAR_OPTIONS = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -85,6 +88,27 @@ export default function TextEditor() {
         }
     }, [socket, quill]);
 
+    async function handleExportPdf() {
+        let value = prompt("What will be name of this file?");
+        if(value){
+            let delta = await quill.getContents();
+            let blob = await pdfExporter.generatePdf(delta);
+            saveAs(blob, `${value}.pdf`);
+        }
+    }
+
+    async function handleExportWord() {
+        let value = prompt("What will be name of this file?");
+        let quillToWordConfig = {
+            exportAs: 'blob'
+        };
+        if(value){
+            let delta = await quill.getContents();
+            let blob = await quillToWord.generateWord(delta, quillToWordConfig);
+            saveAs(blob, `${value}.docx`);
+        }
+    }
+
     const wrapperRef = useCallback((wrapper) => {
         if (wrapper == null) return;
         wrapper.innerHTML = '';
@@ -100,6 +124,12 @@ export default function TextEditor() {
     }, []);
 
     return (
-        <div className='text-editor' ref={wrapperRef}></div>
+        <>
+            <div className='text-editor' ref={wrapperRef}></div>
+            <div className='btn-container'>
+                <button className="download-btn" onClick={handleExportPdf}>Download PDF</button>
+                <button className="download-btn" onClick={handleExportWord}>Download Word</button>
+            </div>
+        </>
     )
 }
